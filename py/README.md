@@ -21,6 +21,29 @@
 - **Empire** - PowerShell post-exploitation
 - **Ncat/Netcat** - Network communication
 
+## 📟 Sistema de Logging
+
+O projeto utiliza ícones padronizados para categorizar as mensagens de output:
+
+| Ícone | Categoria | Descrição |
+|-------|-----------|-----------|
+| `[!]` | **Erros** | Falhas de cópia, conexão, comandos, etc. |
+| `[+]` | **Sucesso** | Operações completadas com sucesso |
+| `[*]` | **Informação** | Status geral, inicialização do sistema |
+| `[~]` | **Retry/Reconexão** | Tentativas de reconexão automática |
+| `[>]` | **Output** | Resultado de comandos executados |
+| `[^]` | **Interrupção** | Parada manual pelo usuário |
+
+### Exemplo de Output
+```
+[*] Starting client, connecting to 192.168.1.78:443
+[+] Connected successfully!
+[>] Command executed successfully
+[~] Connection closed, retrying...
+[!] Connection Error: [Errno 10061] No connection could be made
+[^] Program interrupted by user
+```
+
 ## ⚠️ Disclaimer Legal
 
 Este software é fornecido para fins educacionais e de pesquisa apenas. O uso deste código para:
